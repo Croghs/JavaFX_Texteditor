@@ -5,8 +5,8 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import static javafx.application.Application.launch;
 
 public class main extends Application {
@@ -53,7 +53,13 @@ public class main extends Application {
 
             menuBar.getMenus().addAll(menuOpen, menuSave, menuExit);
 
+            menuBar.setTranslateY(-190);
+
             root.getChildren().addAll(menuBar);
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            fileChooser.showOpenDialog(primaryStage);
 
             // nun Setzen wir die Scene zu unserem Stage und zeigen ihn an
             primaryStage.setScene(scene);
