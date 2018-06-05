@@ -7,6 +7,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
+
 import static javafx.application.Application.launch;
 
 public class main extends Application {
@@ -30,14 +33,6 @@ public class main extends Application {
             // und eine Größe von 400 * 400 Pixel hat
             Scene scene = new Scene(root,600,400);
 
-            // 3. NODE
-            // Initialisieren des Buttons und setzen des Textes der auf dem Button auftaucht
-            button = new Button();
-            button.setText("Useless Button");
-
-            // Fügen den Button zu unserem StackPane (Fenster) hinzu
-            root.getChildren().add(button);
-
 
 
             MenuBar menuBar = new MenuBar();
@@ -59,7 +54,13 @@ public class main extends Application {
 
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Resource File");
-            fileChooser.showOpenDialog(primaryStage);
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+            if (selectedFile != null) {
+                System.out.println("Erfolgreich");
+            }
+
 
             // nun Setzen wir die Scene zu unserem Stage und zeigen ihn an
             primaryStage.setScene(scene);
