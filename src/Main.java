@@ -5,16 +5,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import java.io.*;
-import java.nio.file.Files;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class main extends Application {
+public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -32,8 +30,11 @@ public class main extends Application {
             MenuItem menuExit = new MenuItem("Exit");
             menu.getItems().addAll(menuOpen,menuSave,menuExit);
 
+            TextArea textfeld = new TextArea();
+            textfeld.setWrapText(true);
 
             BorderPane root = new BorderPane();
+            root.setCenter(textfeld);
             menuBar.getMenus().addAll(menu);
             root.setTop(menuBar);
 
@@ -43,13 +44,10 @@ public class main extends Application {
                     FileChooser fileChooser = new FileChooser();
                     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
                     fileChooser.getExtensionFilters().add(extFilter);
-                    File file = fileChooser.showOpenDialog(null);
+                    File file = fileChooser.showOpenDialog(primaryStage);
                     if(file != null){
-                        try{
-                            Files.lines(file.toPath()).forEach(System.out::println);
-                        } catch (IOException ex){
-                            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        String text = readFile(file);
+                        textfeld.setText(text);
                     }
                 }
             });
@@ -63,7 +61,7 @@ public class main extends Application {
                     fileChooser.getExtensionFilters().add(extFilter);
                     File file = fileChooser.showSaveDialog(primaryStage);
                     if(file != null){
-                        SaveFile("blabla", file);
+                        SaveFile(textfeld.getText(), file);
                     }
                 }
             });
@@ -87,12 +85,12 @@ public class main extends Application {
             fileWriter.write(content);
             fileWriter.close();
         } catch (IOException ex) {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+            ex.getMessage();
         }
 
     }
 
-     /*private String readFile (File file){
+     private String readFile (File file){
         StringBuilder stringBuffer = new StringBuilder();
 
         try{
@@ -109,6 +107,6 @@ public class main extends Application {
         }
 
         return stringBuffer.toString();
-    }*/
+    }
 
 }
